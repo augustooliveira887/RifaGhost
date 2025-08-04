@@ -6,7 +6,7 @@ export interface PixResponse {
   pixQrCode: string;
 }
 
-const SECRET_KEY = '18e91c79-748a-4418-872a-0d64db8f7083';
+const SECRET_KEY = import.meta.env.VITE_GHOSTSPAY_SECRET_KEY;
 const API_URL = "https://app.ghostspaysv1.com/api/v1/transaction.purchase";
 
 export async function gerarPix(
