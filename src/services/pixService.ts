@@ -9,7 +9,6 @@ export interface PixResponse {
 const SECRET_KEY = '18e91c79-748a-4418-872a-0d64db8f7083';
 const API_URL = "https://app.ghostspaysv1.com/api/v1/transaction.purchase";
 
-
 export async function gerarPix(
   nome: string,
   email: string,
@@ -20,13 +19,13 @@ export async function gerarPix(
   utmQuery: string
 ): Promise<PixResponse> {
  
- const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': SECRET_KEY,
-        'Accept': 'application/json'
-      },
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${SECRET_KEY}`,
+      'Accept': 'application/json'
+    },
     body: JSON.stringify({
       name: nome,
       email,
@@ -64,13 +63,14 @@ export async function gerarPix(
 /**
  * Verifica o status de pagamento Pix
  */
-const STATUS_URL = "https://app.ghostspaysv1.com/api/v1/transaction.getPayment";
+const STATUS_URL = "https://app.ghostspaysv1.com/api/v1/transaction.getPaymentDetails";
 
 export async function verificarStatusPagamento(id: string): Promise<"PENDING" | "APPROVED" | "FAILED" | "REJECTED"> {
   const response = await fetch(`${STATUS_URL}?id=${id}`, {
     method: "GET",
     headers: {
-      "Authorization": SECRET_KEY
+      "Authorization": `Bearer ${SECRET_KEY}`,
+      "Accept": "application/json"
     }
   });
 
@@ -83,4 +83,3 @@ export async function verificarStatusPagamento(id: string): Promise<"PENDING" | 
 
   return data.status;
 }
-
